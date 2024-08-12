@@ -8,6 +8,26 @@ cloudinary.config({
    api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View Credentials' below to copy your API secret
 });
 
+const destroyCloudVideo = async (localFilePath) => {
+   try {
+      const result = await cloudinary.uploader.destroy(localFilePath, {
+         resource_type: "video",
+      });
+      return true;
+   } catch (error) {
+      console.error("Error deleting video:", error);
+   }
+};
+
+const destroyCloudImage = async (localFilePath) => {
+   try {
+      await cloudinary.uploader.destroy(localFilePath);
+      return true;
+   } catch (error) {
+      return null;
+   }
+};
+
 export const uploadOnCloudinary = async (localFilePath) => {
    try {
       if (!localFilePath) return null;
